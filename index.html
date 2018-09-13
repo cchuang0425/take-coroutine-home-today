@@ -7,7 +7,7 @@
 
 	<title>今天就能帶回家的 Java coroutine</title>
 
-	<!-- TypeKit WebFonts. -->
+	<!-- TypeKit WebFonts.
 	<script src="https://use.typekit.net/kre0bwk.js"></script>
 	<script>
 		try {
@@ -15,7 +15,7 @@
 				async: true
 			});
 		} catch (e) {}
-	</script>
+	</script> -->
 
 	<link rel="stylesheet" href="css/reveal.css">
 	<link rel="stylesheet" href="css/theme/jcconf.css">
@@ -43,40 +43,98 @@
 	<div class="reveal">
 		<div class="slides">
 			<section>
-				<h2>今天就能帶回家的 Java coroutine！</h2>
-				<h4>-- Quasar Fiber 實務與討論</h4>
+				<h2>今天就能帶回家的<br>Java coroutine！</h2>
 			</section>
 
 			<section>
 				<h2>關於我</h2>
-				<p class="fragment">一名程式員</p>
-				<p class="fragment">現任職於資策會</p>
+				<p>一名程式員，<br>現任職於資策會</p>
+			</section>
+
+			<section>
+				<h2>前言</h2>
+				<p class="fragment">架構設計有賺有賠，<br>導入前請詳閱公開說明文件</p>
+				<p class="fragment">所有的設計都是 trade off</p>
+				<p class="fragment">沒有最好或萬用的解法</p>
+				<p class="fragment">只有考慮清楚、討論充足後</p>
+				<p class="fragment">大家願意一同承擔風險的解法</p>
 			</section>
 
 			<section>
 				<h2>今天的主角 -- Quasar</h2>
 				<ul>
-					<li>前言</li>
-					<li>Quasar 從 0 到 1</li>
-					<li>淺解 Coroutine</li>
-					<li>再談 Continuation</li>
-					<li>Real World Quasar</li>
+					<li>處境－我們遇到了什麼問題</li>
+					<li>實作－Quasar 從 0 到 1</li>
+					<li>原理－淺解 Coroutine</li>
+					<li>探底－再談 Continuation</li>
+					<li>實務－Real World Quasar</li>
+					<li>結論</li>
 				</ul>
 			</section>
 
 			<section>
-				<h2>前言</h2>
-				<p class="fragment">架構設計有賺有賠，<br>導入前請詳閱公開說明文件。</p>
-				<p class="fragment">所有的設計都是 trad-off</p>
-				<p class="fragment">沒有最好，沒有最適，沒有最佳解</p>
-				<p class="fragment">只有考慮清楚、討論充足後，</p>
-				<p class="fragment">大家願意承擔風險的解法</p>
+				<section>
+					<h2>我們遇到了什麼問題？</h2>
+					<p class="fragment">當同步變成非同步，<br>就是豬羊變色的開始</p>
+				</section>
+				<section>
+					<h3>當一切還單純美好時</h3>
+					<img src="dia/flow-orig.png">
+				</section>
+				<section>
+					<h3>後來，開始有了些擴展</h3>
+				</section>
+				<section>
+					<h3>解決方案之一</h3>
+					<img src="dia/flow-sync.png">
+				</section>
+				<section>
+					<h3>解決方案之二</h3>
+					<img src="dia/flow-async.png">
+				</section>
+				<section>
+					<h3>最後，我們選擇了那條<br>充滿荊棘的冒險之路...</h3>
+				</section>
 			</section>
 			<section>
-				<h2>Quasar 從 0 到 1</h2>
-			</section>
-			<section>
-				<h2>什麼是 Quasar ?</h2>
+				<section>
+					<h2>Quasar 從 0 到 1</h2>
+				</section>
+				<section>
+					<p>
+						<a href="http://www.paralleluniverse.co/quasar/">www.paralleluniverse.co/quasar/</a><br>
+						<img src="img/quasar-page.png">
+					</p>
+				</section>
+				<section>
+					<h2>什麼是 Quasar ?</h2>
+					<p class="fragment">一種 Java based coroutine 實作，</p>
+					<p class="fragment">基於 Fiber 與 Continuation 機制，</p>
+					<p class="fragment">提供靈活、輕量的方式，實現以同步式<br>觀點，進行非同步式的開發。</p>
+				</section>
+				<section>
+					<h2>Gradle 設定</h2>
+					<pre><code>
+configurations {
+  quasar
+}
+					</code></pre>
+					<pre><code>
+dependencies {
+  compile  "co.paralleluniverse:quasar-core:0.7.10:jdk8"
+  quasar   "co.paralleluniverse:quasar-core:0.7.10:jdk8@jar"
+}
+					</code></pre>
+					<pre><code>
+test {
+  jvmArgs "-javaagent:${configurations.quasar.singleFile}"
+}
+					</code></pre>
+				</section>
+				<section>
+					<h2>第一個 Fiber</h2>
+					
+				</section>
 			</section>
 			<section>
 				<h2></h2>
@@ -94,22 +152,22 @@
 		// - https://github.com/hakimel/reveal.js#dependencies
 		Reveal.initialize({
 			dependencies: [{
-					src: 'plugin/markdown/marked.js'
-				},
-				{
-					src: 'plugin/markdown/markdown.js'
-				},
-				{
-					src: 'plugin/notes/notes.js',
-					async: true
-				},
-				{
-					src: 'plugin/highlight/highlight.js',
-					async: true,
-					callback: function () {
-						hljs.initHighlightingOnLoad();
-					}
+				src: 'plugin/markdown/marked.js'
+			},
+			{
+				src: 'plugin/markdown/markdown.js'
+			},
+			{
+				src: 'plugin/notes/notes.js',
+				async: true
+			},
+			{
+				src: 'plugin/highlight/highlight.js',
+				async: true,
+				callback: function () {
+					hljs.initHighlightingOnLoad();
 				}
+			}
 			]
 		});
 

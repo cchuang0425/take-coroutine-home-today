@@ -3,9 +3,14 @@
  *
  * By Hakim El Hattab, http://hakim.se
  */
-/*
+
+ @import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
+
+ /*
 @import url(../../lib/font/source-sans-pro/source-sans-pro.css);
+@import url('https://fonts.googleapis.com/css?family=Fira+Mono|Fira+Sans');
 */
+@import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono');
 
 section.has-dark-background, section.has-dark-background h1, section.has-dark-background h2, section.has-dark-background h3, section.has-dark-background h4, section.has-dark-background h5, section.has-dark-background h6 {
   color: #fff; }
@@ -18,7 +23,7 @@ body {
   background-color: #fff; }
 
 .reveal {
-  font-family:  "source-han-sans-traditional", sans-serif;
+  font-family:  "Roboto", "Noto Sans TC", sans-serif;
   font-size: 42px;
   font-weight: normal;
   color: #222; }
@@ -49,7 +54,7 @@ body {
 .reveal h6 {
   margin: 0 0 20px 0;
   color: #222;
-  font-family: "source-han-sans-traditional", sans-serif;
+  font-family: "Roboto", "Noto Sans TC", sans-serif;
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: normal;
@@ -149,13 +154,13 @@ body {
   margin: 20px auto;
   text-align: left;
   font-size: 0.55em;
-  font-family: "source-code-pro", monospace;
+  font-family: "Roboto Mono", monospace;
   line-height: 1.2em;
   word-wrap: break-word;
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3); }
 
 .reveal code {
-  font-family: "source-code-pro", monospace;
+  font-family: "Roboto Mono", monospace;
   text-transform: none; }
 
 .reveal pre code {
