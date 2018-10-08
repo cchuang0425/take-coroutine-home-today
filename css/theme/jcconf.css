@@ -58,7 +58,6 @@ body {
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: normal;
-  text-transform: uppercase;
   text-shadow: none;
   word-wrap: break-word; }
 
@@ -213,6 +212,22 @@ body {
 .reveal small * {
   vertical-align: top; }
 
+.reveal #front-page h3{
+  position: relative;
+  width: 480px;
+  top: 120px;
+  left: 20px;
+  text-align: left;
+}
+
+.reveal #front-page h4{
+  position: relative;
+  width: 480px;
+  top: 120px;
+  left: 20px;
+  text-align: left;
+}
+
 /*********************************************
  * LINKS
  *********************************************/
@@ -279,3 +294,4 @@ body {
 @media print {
   .backgrounds {
     background-color: #fff; } }
+

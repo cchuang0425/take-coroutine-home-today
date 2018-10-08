@@ -21,7 +21,7 @@
 	<link rel="stylesheet" href="css/theme/jcconf.css">
 
 	<!-- Theme used for syntax highlighting of code -->
-	<link rel="stylesheet" href="lib/css/zenburn.css">
+	<link rel="stylesheet" href="lib/css/darcula.css">
 
 	<style>
 		.red {
@@ -42,156 +42,514 @@
 <body>
 	<div class="reveal">
 		<div class="slides">
-			<section>
-				<h2>今天就能帶回家的<br>Java coroutine！</h2>
+			<section id="front-page" data-background-image="img/background.png"
+			 data-background-position="center" data-background-size="contain"
+			 data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+				<h3>今天就能帶回家的 Java Coroutine！</h3>
+				<h4>資策會 黃俊鈞</h4>
 			</section>
 
-			<!-- 今天主角 -->
-			<section>
-				<h2>關於我</h2>
-				<p>一名程式員，<br>現任職於資策會</p>
-			</section>
-
-			<!-- 前言 -->
-			<section>
-				<h2>前言</h2>
-				<p class="fragment">架構設計有賺有賠，<br>
-					導入前請詳閱公開說明文件</p>
-				<p class="fragment">所有的設計都是 trade off</p>
-				<p class="fragment">沒有最好或萬用的解法</p>
-				<p class="fragment">只有考慮清楚、討論充足後</p>
-				<p class="fragment">大家願意一同承擔風險的方案</p>
-			</section>
-
-			<!-- 應用問題 -->
-			<section>
-				<section>
-					<h2>不知道，各位有沒有碰過<br>
-						這樣的問題？</h2>
-				</section>
-				<section>
-					<h2>原本程式執行時，一步結束，<br>
-						就進到下一步</h2>
-				</section>
-				<section>
-					<h2>突然地，我們不知道它什麼時候結束了！</h2>
-				</section>
-				<section>
-					<h2>其實這就是非同步開發的挑戰，然而我們<br>
-						語言的核心思維，卻是同步開發模式</h2>
-				</section>
-			</section>
-
-			<!-- 解決方案 -->
-			<section>
-				<section>
-					<h2>關於這個問題，可能有幾種解法...</h2>
-				</section>
-				<section>
-					<h2>第一，Java 傳統的 concurrency</h2>
-				</section>
-				<section>
-					<h2>第二，非同步開發框架</h2>
-				</section>
-				<section>
-					<h3>第三，Coroutine</h3>
-				</section>
-			</section>
-
-			<!-- Coroutine 說明 -->
-			<section>
-				<section>
-					<h2>什麼是 Coroutine？</h2>
-				</section>
-				<section>
-					<p>WIKI 定義</p>
-				</section>
-			</section>
-
-			<section>
-
-			</section>
-
-			<section>
-				<h2>今天的主角 -- Quasar</h2>
+			<section data-background-image="img/bottom.png" data-background-position="bottom"
+			 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
+			 data-height="768px">
+				<h3>前言</h3>
 				<ul>
-					<li>處境－我們遇到了什麼問題</li>
-					<li>實作－Quasar 從 0 到 1</li>
-					<li>原理－淺解 Coroutine</li>
-					<li>探底－再談 Continuation</li>
-					<li>實務－Real World Quasar</li>
-					<li>結論</li>
+					<li class="fragment">架構設計有賺有賠，導入前請詳閱公開說明文件</li>
+					<li class="fragment">設計其實是在諸多選擇中的 trade off</li>
+					<li class="fragment">沒有最好，只有...</li>
+					<li class="fragment">大家考慮清楚、討論充足後，願意一同承擔風險的方案</li>
 				</ul>
 			</section>
 
 			<section>
-				<section>
-					<h2>我們遇到了什麼問題？</h2>
-					<p class="fragment">當同步變成非同步，<br>就是豬羊變色的開始</p>
+				<section data-background-image="img/bottom.png" data-background-position="bottom"
+				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
+				 data-height="768px">
+					<h3>今天的主角</h3>
 				</section>
-				<section>
-					<h3>當一切還單純美好時</h3>
-					<img src="dia/flow-orig.png">
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom"
+				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
+				 data-height="768px">
+					<h3>不是我</h3>
+					<div class="fragment">
+						<img src="img/head.jpg" style="float: left" width="35%">
+						<p width="65%">
+							黃俊鈞<br>
+							一名程式員<br>
+							現任職於資策會<br>
+						</p>
+					</div>
 				</section>
-				<section>
-					<h3>後來，開始有了些擴展</h3>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom"
+				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
+				 data-height="768px">
+					<h3>也不是它</h3>
+					<div class="fragment">
+						<h4>Quasar</h4>
+						<p>Quasar is a library that provides high-performance lightweight threads, Go-like
+							channels, Erlang-like actors, and other asynchronous programming tools for Java
+							and Kotlin.</p>
+					</div>
 				</section>
-				<section>
-					<h3>解決方案之一</h3>
-					<img src="dia/flow-sync.png">
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom"
+				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
+				 data-height="768px">
+					<h4>Quasar</h4>
+					<p>Quasar 是個提供了高效、輕量執行緒的函式庫，它有如同 Go 語言的 channels、Erlang 語言的 actors，還有其他供 Java 與
+						Kotlin 開發使用的非同步工具</p>
 				</section>
-				<section>
-					<h3>解決方案之二</h3>
-					<img src="dia/flow-async.png">
-				</section>
-				<section>
-					<h3>最後，我們選擇了那條<br>充滿荊棘的冒險之路...</h3>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom"
+				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
+				 data-height="768px">
+					<h3>是各位</h3>
+					<ul>
+						<li class="fragment">這是一個如同根基一般的框架</li>
+						<li class="fragment">選對框架帶你上天堂</li>
+						<li class="fragment">選錯框架讓你睡機房</li>
+					</ul>
 				</section>
 			</section>
+
+			<section data-background-image="img/bottom.png" data-background-position="bottom"
+			 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
+			 data-height="768px">
+				<h3>今天的脈絡</h3>
+				<ul>
+					<li class="fragment">問題 → 需求</li>
+					<li class="fragment">需求 → 機制</li>
+					<li class="fragment">機制 → 實踐</li>
+					<li class="fragment">實踐 → 驗證</li>
+				</ul>
+			</section>
+
 			<section>
-				<section>
-					<h2>Quasar 從 0 到 1</h2>
+				<section data-background-image="img/bottom.png" data-background-position="bottom"
+				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
+				 data-height="768px">
+					<h3>問題 → 需求</h3>
 				</section>
-				<section>
-					<p>
-						<a href="http://www.paralleluniverse.co/quasar/">www.paralleluniverse.co/quasar/</a><br>
-						<img src="img/quasar-page.png">
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>不知道，各位有沒有碰過這樣的問題？</h3>
+				</section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>假設我們有個這樣的計算問題</h3>
+					<p class="fragment">
+						在 1 <= n <= 45 的費氏數列裡，<br>
+						有多少個數字是質數呢？
 					</p>
+					<ul>
+						<li class="fragment">為了表示耗時操作，本例皆用最慢演算法</li>
+						<li class="fragment">各位都是專業的工程師，請勿模仿本例寫法</li>
+					</ul>
 				</section>
-				<section>
-					<h2>什麼是 Quasar ?</h2>
-					<p class="fragment">一種 Java based coroutine 實作，</p>
-					<p class="fragment">基於 Fiber 與 Continuation 機制，</p>
-					<p class="fragment">提供靈活、輕量的方式，實現以同步式<br>觀點，進行非同步式的開發。</p>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>費氏數列</h3>
+					<pre><code class="java hljs" data-trim data-noescape>
+long fib(long n){
+  if(n == 0 || n == 1){
+    return n;
+  }else{
+    return fib(n - 1) + fib(n - 2);
+  }
+}
+					</code></pre>
 				</section>
-				<section>
-					<h2>Gradle 設定</h2>
-					<pre><code>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>質數判定</h3>
+					<pre><code class="java hljs" data-trim data-noescape>
+boolean isPrime(long value) {
+  if (value <= 1) {
+    return false;
+  } else {
+    for (long div = value - 1; div > 0; div--) {
+      if ((value % div) == 0) { return div == 1; }
+    }
+    return false;
+  }
+}							  
+					</code></pre>
+				</section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>同步執行</h3>
+					<div class="fragment">
+						<img src="img/drip.jpg"><br>
+						<em style="font-size: 28px">圖片來源：Cama</em>
+					</div>
+				</section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>難以體會嗎？</h3>
+					<div class="fragment">
+						<img src="img/queueing.jpg" height="350px"><br>
+						<em style="font-size: 28px">圖片來源：輕旅行@yam.com</em>
+					</div>
+				</section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>同步執行的程式</h3>
+					<pre><code class="java hljs" data-trim data-noescape>
+List<Long> checkPrimalityFib(long n){
+  List<Long> numbers = new ArrayList<>();
+    for(long i = 1; i <= n; i++){
+      long fibNum = fib(i);
+	  if (isPrime(fibNum)){ numbers.add(i); }
+    }
+  return numbers;
+}
+					</code></pre>
+				</section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>但好景不常....</h3>
+					<p class="fragment">
+						為了某些理由，我們把核心的計算工作<br>
+						與流程控制分開了，中間透過 Message Queue<br>
+						介接，於是它們變成...</p>
+				</section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>非同步執行</h3>
+					<div class="fragment">
+							<img src="img/tatung.jpg" height="350px"><br>
+							<em style="font-size: 28px">圖片來源：PCHome</em>
+						</div>
+				</section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>或另一個看起來比較有效率的排隊</h3>
+					<div class="fragment">
+						<img src="img/scheduling.jpg" height="350px"><br>
+						<em style="font-size: 28px">圖片來源：輕旅行@yam.com</em>
+					</div>
+				</section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>非同步環境下的同步執行</h3>
+					<pre><code class="java hljs" data-trim data-noescape>
+List<Long> checkPrimalityFib(long n){
+  List<Long> numbers = new ArrayList<>();
+  for(long i = 1; i <= n; i++){
+    long fibNum = CALL_MQ_AND_WAIT(fib(i));
+    if (CALL_MQ_AND_WAIT(isPrime(fibNum))){ numbers.add(i); }
+  }
+  return numbers;
+}
+					</code></pre>
+				</section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>非同步的 Event Driven</h3>
+					<em>讓我們來看一下程式....</em>
+				</section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>程式脈絡已經與先前完全不同！</h3>
+				</section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>困難的，不是把它寫出來，而是寫完後要如何維護與擴充！</h3>
+				</section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>所以，我們有以下需求</h3>
+					<ul>
+						<li class="fragment">呼叫 Message Queue 的時候，程式可以暫停，而非等待</li>
+						<li class="fragment">Message Queue 傳回執行結果後，程式可以恢復原本執行時的狀態</li>
+						<li class="fragment">程式碼可以維持清晰易讀的條理</li>
+					</ul>
+				</section>
+			</section>
+
+			<section>
+					<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+						<h3>需求 → 機制</h3>
+					</section>
+
+					<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+						<h3>解法一：Producer Consumer Pattern</h3>
+						<div class="fragment">
+								<img src="img/blocking-queue.png" height="350px"><br>
+								<em style="font-size: 28px">圖片來源：HowToDoInJava</em>
+							</div>		
+					</section>
+
+					<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+						<h3>評價 - 優點</h3>
+						<ul>
+								<li class="fragment">使用 Java 原生的機制，具有最好的相容性與穩定性</li>
+								<li class="fragment">使用同步式開發，程式碼易於理解、維護</li>
+							</ul>		
+					</section>
+					<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+						<h3>評價 - 缺點</h3>
+						<ul>
+							<li class="fragment">所有 <strong>wait</strong> 在 <strong>LinkedBlockingQueue</strong> 上的 Producer 與 Consumer 都是活著的(activated) Thread</li>
+							<li class="fragment">若 ThreadPool 裡的 Thread 都在 <strong>wait</strong>，則會造成 ThreadPool 堵塞住</li>
+							<li class="fragment">若使用 <strong>sleep</strong> 則會造成頻繁 context switch 負擔</li>
+							<li class="fragment">若只是存取外部服務(Web、MQ...)，為何我們要耗用 CPU 的資源來等待呢？</li>
+						</ul>		
+					</section>
+
+					<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+						<h3>解法二：Coroutine & Continuation</h3>
+					</section>
+
+					<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+						<h3>Coroutine?</h3>
+						<p class="fragment">Coroutines are computer-program components that <strong>generalize subroutines for non-preemptive multitasking</strong>, <strong>by allowing multiple entry points</strong> <strong>for suspending and resuming execution at certain locations.</strong> <br><em style="font-size: 28px">Wikipedia.</em></p>
+					</section>
+
+					<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+						<h3>一段一段分解</h3>
+						<ul>
+							<li class="fragment">generalize subroutines for non-preemptive multitasking</li>
+							<li class="fragment">泛指用作非佔式多工的副程式 (執行單元)</li>
+							<li class="fragment">by allowing multiple entry points</li>
+							<li class="fragment">藉著容許這副程式有多個進入點</li>
+							<li class="fragment">for suspending and resuming execution at certain locations</li>
+							<li class="fragment">使得控制流得以在特定位置暫停或復原</li>
+						</ul>		
+					</section>
+
+					<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+						<h3>怎麼做到？</h3>
+					</section>
+
+					<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+						<h3>想像一下，這是你的程式的 calling stack...</h3>
+						<div class="fragment" style="float: left" width="35%">
+							<img src="img/stack.jpg" height="250px"><br>
+							<em style="font-size: 28px">圖片來源：大家的好朋友</em>
+						</div>
+						<p width="60%" style="float: right" class="fragment">
+							程式是這樣一層一層呼叫上去，<br>
+							並且一層一層執行下來<br>
+							然而，如果我們有了這個神器！
+						</p>
+					</section>
+
+					<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+						<h3>Continuation</h3>
+						
+					</section>
+
+					<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+						<h3>評價 - 優點</h3>
+						<ul>
+							<li class="fragment">可以在同步式開發的程式裡，具備非同步的執行特性</li>
+							<li class="fragment">輕量化的 Thread - Fiber，可以建立大量的執行單元</li>
+							<li class="fragment">適用於非佔用 CPU 型的任務，如 IO、網路通訊等</li>
+						</ul>
+					</section>
+
+					<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+						<h3>評價 - 優點</h3>
+						<ul>
+							<li class="fragment">引入了外部(Java Agent)工具，增加部署上的負擔</li>
+							<li class="fragment">為了保持邏輯正確性，需要把 Fiber 暫停前的資料暫存起來</li>
+							<li class="fragment">框架間相容性需要更深入研究</li>
+							<li class="fragment">框架都很冷門，甚至有的已經沒有在維護</li>
+						</ul>
+					</section>
+
+					<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+						<h3>當然還有：Asynchronous</h3>
+					</section>
+
+					<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+						<h3>評價 - 優點</h3>
+						<ul>
+							<li class="fragment">本質上完全相容於 Message Queue 訊息來往的特性</li>
+							<li class="fragment">已有許多成熟的專案可支援 eg. Akka</li>
+						</ul>
+					</section>
+
+					<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+						<h3>評價 - 缺點</h3>
+						<ul>
+							<li class="fragment">既有架構必須完全改寫</li>
+							<li class="fragment">需要使用記憶體快取或資料持久化機制，來儲存每一個階段做到一半的資料</li>
+							<li class="fragment">業務邏輯散落各處，一旦需求改變，便難以修正</li>
+							<li class="fragment">Akka 引入了 Scala，我並不想讓一個系統裡頭有兩種語言並存...</li>
+							<li class="fragment">學習曲線較高，我自己也被困了很久，還是對其他人好一點吧....</li>
+						</ul>
+					</section>
+
+					<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+						<h3>最後選擇</h3>
+						<img src="img/quasar-page.png" height="400px">
+					</section>
+			</section>
+
+			<section>
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>機制 → 實踐</h3>
+				</section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>Quasar 101</h3>
+				</section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>Fiber & Channel</h3>
+					<div class="fragment">
+						<h4>我們借一下 Go 的圖</h4>
+						<img src="img/go-channel.jpg" width="350px">
+						<em style="font-size: 28px">圖片來源：HowToDoInJava</em>
+					</div>
+				</section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>PrimalityFiber</h3>
+				</section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>Gradle</h3>
+					<div class="fragment">
+						<pre><code class="groovy hljs">
 configurations {
   quasar
 }
-					</code></pre>
-					<pre><code>
 dependencies {
   compile  "co.paralleluniverse:quasar-core:0.7.10:jdk8"
   quasar   "co.paralleluniverse:quasar-core:0.7.10:jdk8@jar"
 }
-					</code></pre>
-					<pre><code>
 test {
   jvmArgs "-javaagent:${configurations.quasar.singleFile}"
+}							  
+						</code></pre>
+					</div>
+				</section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>小眉角</h3>
+					<div class="fragment">
+					<pre class="groovy hljs"><code>
+task copyQuasar(type: Copy) {
+  into "$projectDir/lib"
+  from configurations.quasar
 }
-					</code></pre>
+build.finalizedBy(copyQuasar)
+						</code></pre>
+					</div>
 				</section>
-				<section>
-					<h2>第一個 Fiber</h2>
-					<p class="fragment">想像一下，你現在正在寫 Thread 的情境....</p>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>Fiber</h3>
+					<div class="fragment">
+						<pre class="java hljs"><code>
+public class PrimalityFiber
+    implements SuspendableCallable<List<Long>> {
+
+  @Override
+  public List<Long> run() throws
+	  SuspendExecution, InterruptedException {
+	
+	...
+  }
+}
+						</code></pre>
+					</div>
+				</section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>與 Channel 共舞</h3>
+					<div class="fragment">
+							<pre class="java hljs"><code>
+List<Long> result = new ArrayList<>();
+
+for (long i = 1; i <= n; i++) {
+  Long fibResult = receiveFromChannel(service.calFib(i));
+  Boolean primeResult = receiveFromChannel(service.calPrime(fibResult));
+  if (primeResult) {result.add(i);}
+}
+return result;
+							</code></pre>
+						</div>
+				</section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>謎底之一</h3>
+					<div class="fragment">
+							<pre class="java hljs"><code>
+@Suspendable
+protected <T> T receiveFromChannel(Channel<T> channel) 
+    throws InterruptedException, SuspendExecution {
+  return channel.receive();
+}
+							</code></pre>
+						</div>
+				</section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>謎底之二</h3>
+					<div class="fragment">
+							<pre class="java hljs"><code>
+public Channel<Long> calFib(long n) {
+  CommandMessage<Long> fibCmd = createFibCommand(n);
+  Channel<Long> channel = Channels.newChannel(1);
+  mqSender.sendCommand(convertJsonFromObject(fibCmd));
+
+  return channel;
+}
+							</code></pre>
+						</div>
+				</section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+					<h3>謎底之三</h3>
+					<div class="fragment">
+							<pre class="java hljs"><code>
+@Suspendable
+private <R> void resume(ResultMessage<R> result, Class<R> type) {
+  Optional<Channel<R>> maybe = channels.find(result.getId(), type);
+  if (maybe.isPresent()) {
+    Channel<R> channel = maybe.get();
+    try {
+      channel.send(result.getResult());
+    } catch (InterruptedException | SuspendExecution ex) {
+      // ignore it
+    }
+  }
+}
+								  
+							</code></pre>
+						</div>
 				</section>
 			</section>
+
+			<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+				<h3>實踐 → 驗證</h3>
+				<h4>讓我們直接看程式...</h4>
+			</section>
+
 			<section>
-				<h2></h2>
-				<p></p>
+					<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+						<h3>深入探討 － Quasar</h3>
+					</section>
+					
+					<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+						<h3>JavaAgent?</h3>
+					</section>
+
+					<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+						<h3>Why not AOT?</h3>
+					</section>
+
+					<section data-background-image="img/bottom.png" data-background-position="bottom" data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px" data-height="768px">
+						<h3>SuspendExecution</h3>
+					</section>
 			</section>
+
 		</div>
 	</div>
 
