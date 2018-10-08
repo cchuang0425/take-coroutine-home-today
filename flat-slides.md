@@ -15,15 +15,14 @@
 
 1. 黃俊鈞
 2. 一名程式員，現任職於資策會
-3. 興趣是研究程式語言與它的執行環境、安全軟體開發與系統架構設計
 
-### 也不是它
+### 是它
 
 1. Quasar
 2. Quasar is a library that provides high-performance lightweight threads, Go-like channels, Erlang-like actors, and other asynchronous programming tools for Java and Kotlin.
 3. Quasar 是個提供了高效、輕量執行緒的函式庫，它有如同 Go 語言的 channels、Erlang 語言的 actors，還有其他供 Java 與 Kotlin 開發使用的非同步工具
 
-### 是各位
+### 更是各位
 
 1. 這是一個如同根基一般的框架
 2. 選對框架帶你上天堂

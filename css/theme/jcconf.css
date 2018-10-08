@@ -76,6 +76,14 @@ body {
 .reveal h1 {
   text-shadow: none; }
 
+.reveal .slides #front-page h3{
+  color: #DDD;
+}
+
+.reveal .slides #front-page h4{
+  color: #DDD;
+}
+
 /*********************************************
  * OTHER
  *********************************************/
