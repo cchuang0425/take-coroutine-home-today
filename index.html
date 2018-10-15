@@ -710,6 +710,27 @@ private &lt;R&gt; void resume(ResultMessage&lt;R&gt; result, Class&lt;R&gt; type
 				</ul>
 			</section>
 
+			<section data-background-image="img/bottom.png" data-background-position="bottom"
+			 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
+			 data-height="768px">
+				<h3>其他設定</h3>
+
+				<ul>
+					<li class="fragment">
+						如果你的 Fiber 裡有耗時的 blocking 工作：<br>
+						<pre><code>
+							-Dco.paralleluniverse.fibers.detectRunawayFibers=[true|false]
+						</code></pre>
+					</li>
+					<li class="fragment">
+						如果你的程式有無法 instrument 的呼叫：<br>
+						<pre><code>
+							-Dco.paralleluniverse.fibers.verifyInstrumentation=[true|false]
+						</code></pre>
+					</li>
+				</ul>
+			</section>
+
 			<section>
 				<section data-background-image="img/bottom.png" data-background-position="bottom"
 				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
