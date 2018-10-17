@@ -718,14 +718,14 @@ private &lt;R&gt; void resume(ResultMessage&lt;R&gt; result, Class&lt;R&gt; type
 				<ul>
 					<li class="fragment">
 						如果你的 Fiber 裡有耗時的 blocking 工作：<br>
-						<pre><code>
-							-Dco.paralleluniverse.fibers.detectRunawayFibers=[true|false]
+						<pre class="java hljs"><code>
+-Dco.paralleluniverse.fibers.detectRunawayFibers=false
 						</code></pre>
 					</li>
 					<li class="fragment">
-						如果你的程式有無法 instrument 的呼叫：<br>
-						<pre><code>
-							-Dco.paralleluniverse.fibers.verifyInstrumentation=[true|false]
+						如果你的程式沒有無法 instrument 的呼叫：<br>
+						<pre class="java hljs"><code>
+-Dco.paralleluniverse.fibers.verifyInstrumentation=false
 						</code></pre>
 					</li>
 				</ul>
