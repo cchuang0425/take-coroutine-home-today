@@ -60,7 +60,7 @@
 					<li class="fragment">大家考慮清楚、討論充足後，願意一同承擔風險的方案</li>
 				</ul>
 			</section>
-
+		
 			<section>
 				<section data-background-image="img/bottom.png" data-background-position="bottom"
 				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
@@ -78,7 +78,8 @@
 						現任職於資策會<br>
 					</p>
 				</section>
-
+			</section>
+			<section>
 				<section data-background-image="img/bottom.png" data-background-position="bottom"
 				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
 				 data-height="768px">
@@ -89,6 +90,12 @@
 				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
 				 data-height="768px">
 					<h3>Quasar</h3>
+					<img src="img/quasar-page.png" height="400px">
+				</section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom"
+				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
+				 data-height="768px">
 					<p>Quasar is a library that provides high-performance lightweight threads, Go-like
 						channels, Erlang-like actors, and other asynchronous programming tools for Java
 						and Kotlin.</p>
@@ -101,7 +108,6 @@
 					<p>Quasar 是個提供了高效、輕量執行緒的函式庫，它有如同 Go 語言的 channels、Erlang 語言的 actors，還有其他供 Java 與
 						Kotlin 開發使用的非同步工具</p>
 				</section>
-
 			</section>
 
 			<section data-background-image="img/bottom.png" data-background-position="bottom"
@@ -236,16 +242,6 @@ List&lt;Long&gt; checkPrimalityFib(long n){
 				<section data-background-image="img/bottom.png" data-background-position="bottom"
 				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
 				 data-height="768px">
-					<h3>或另一個看起來比較有效率的排隊</h3>
-					<div class="fragment">
-						<img src="img/scheduling.jpg" height="350px"><br>
-						<em style="font-size: 28px">圖片來源：輕旅行@yam.com</em>
-					</div>
-				</section>
-
-				<section data-background-image="img/bottom.png" data-background-position="bottom"
-				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
-				 data-height="768px">
 					<h3>非同步環境下的同步執行</h3>
 					<pre><code class="java hljs" data-trim data-noescape>
 List&lt;Long&gt checkPrimalityFib(long n){
@@ -281,7 +277,7 @@ List&lt;Long&gt checkPrimalityFib(long n){
 				<section data-background-image="img/bottom.png" data-background-position="bottom"
 				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
 				 data-height="768px">
-					<h3>所以，我們有以下需求</h3>
+					<h3>需求</h3>
 					<ul>
 						<li class="fragment">呼叫 Message Queue 的時候，程式可以暫停，而非等待</li>
 						<li class="fragment">Message Queue 傳回執行結果後，程式可以恢復原本執行時的狀態</li>
@@ -300,40 +296,7 @@ List&lt;Long&gt checkPrimalityFib(long n){
 				<section data-background-image="img/bottom.png" data-background-position="bottom"
 				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
 				 data-height="768px">
-					<h3>解法一：Producer Consumer Pattern</h3>
-					<div class="fragment">
-						<img src="img/blocking-queue.png" height="350px"><br>
-						<em style="font-size: 28px">圖片來源：HowToDoInJava</em>
-					</div>
-				</section>
-
-				<section data-background-image="img/bottom.png" data-background-position="bottom"
-				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
-				 data-height="768px">
-					<h3>評價 - 優點</h3>
-					<ul>
-						<li class="fragment">使用 Java 原生的機制，具有最好的相容性與穩定性</li>
-						<li class="fragment">使用同步式開發，程式碼易於理解、維護</li>
-					</ul>
-				</section>
-				<section data-background-image="img/bottom.png" data-background-position="bottom"
-				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
-				 data-height="768px">
-					<h3>評價 - 缺點</h3>
-					<ul>
-						<li class="fragment">所有 <strong>wait</strong> 在 <strong>LinkedBlockingQueue</strong>
-							上的 Producer 與 Consumer 都是活著的(activated) Thread</li>
-						<li class="fragment">當 ThreadPool 裡的 Thread 都在 <strong>wait</strong>，則會造成
-							ThreadPool 堵塞住</li>
-						<li class="fragment">若使用 <strong>sleep</strong> 則會造成頻繁 context switch 負擔</li>
-						<li class="fragment">如果只是存取外部服務(Web、MQ...)，為何我們要耗用 CPU 的資源來等待呢？</li>
-					</ul>
-				</section>
-
-				<section data-background-image="img/bottom.png" data-background-position="bottom"
-				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
-				 data-height="768px">
-					<h3>解法二：Coroutine & Continuation</h3>
+					<h3>Coroutine & Continuation</h3>
 				</section>
 
 				<section data-background-image="img/bottom.png" data-background-position="bottom"
@@ -358,12 +321,6 @@ List&lt;Long&gt checkPrimalityFib(long n){
 						<li class="fragment">for suspending and resuming execution at certain locations<br>
 							使得控制流得以在特定位置暫停或復原</li>
 					</ul>
-				</section>
-
-				<section data-background-image="img/bottom.png" data-background-position="bottom"
-				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
-				 data-height="768px">
-					<h3>怎麼做到？</h3>
 				</section>
 
 				<section data-background-image="img/bottom.png" data-background-position="bottom"
@@ -416,7 +373,7 @@ try{
 				<section data-background-image="img/bottom.png" data-background-position="bottom"
 				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
 				 data-height="768px">
-					<h3>評價 - 優點</h3>
+					<h3>優點</h3>
 					<ul>
 						<li class="fragment">可以在同步式開發的程式裡，具備非同步的執行特性</li>
 						<li class="fragment">輕量化的 Thread - Fiber，可以建立大量的執行單元</li>
@@ -427,7 +384,7 @@ try{
 				<section data-background-image="img/bottom.png" data-background-position="bottom"
 				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
 				 data-height="768px">
-					<h3>評價 - 缺點</h3>
+					<h3>缺點</h3>
 					<ul>
 						<li class="fragment">引入了外部(Java Agent)工具，增加部署上的負擔</li>
 						<li class="fragment">為了保持邏輯正確性，需要把 Fiber 暫停前的資料暫存起來</li>
@@ -435,41 +392,6 @@ try{
 						<li class="fragment">框架都很冷門，甚至有的已經沒有在維護</li>
 						<li class="fragment">JDK 原生 Coroutine - Loom 仍在研議中</li>
 					</ul>
-				</section>
-
-				<section data-background-image="img/bottom.png" data-background-position="bottom"
-				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
-				 data-height="768px">
-					<h3>當然還有：Asynchronous</h3>
-				</section>
-
-				<section data-background-image="img/bottom.png" data-background-position="bottom"
-				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
-				 data-height="768px">
-					<h3>評價 - 優點</h3>
-					<ul>
-						<li class="fragment">本質上完全相容於 Message Queue 訊息來往的特性</li>
-						<li class="fragment">已有許多成熟的專案可支援 eg. Akka</li>
-					</ul>
-				</section>
-
-				<section data-background-image="img/bottom.png" data-background-position="bottom"
-				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
-				 data-height="768px">
-					<h3>評價 - 缺點</h3>
-					<ul>
-						<li class="fragment">既有架構必須完全改寫</li>
-						<li class="fragment">需要使用記憶體快取或資料持久化機制，來儲存每一個階段做到一半的資料</li>
-						<li class="fragment">業務邏輯散落各處，一旦需求改變，便難以修正</li>
-						<li class="fragment">學習曲線較高，對團隊技術面知識要求較高</li>
-					</ul>
-				</section>
-
-				<section data-background-image="img/bottom.png" data-background-position="bottom"
-				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
-				 data-height="768px">
-					<h3>最後選擇</h3>
-					<img src="img/quasar-page.png" height="400px">
 				</section>
 			</section>
 
@@ -605,6 +527,22 @@ protected &lt;T&gt; T receiveFromChannel(Channel&lt;T&gt; channel)
 							</code></pre>
 					</div>
 				</section>
+				<section data-background-image="img/bottom.png" data-background-position="bottom"
+				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
+				 data-height="768px">
+				 <h3>這樣會更好</h3>
+				 <div class="fragment">
+					 <pre class="java hljs"><code>
+@Suspendable
+private Long calFib(long n)
+	throws InterruptedException, SuspendExecution {
+  try(Channel&lt;Long&gt; channel = service.calFib(n)){
+	  return channel.receive();
+  }
+}
+					 </code></pre>
+				 </div>
+			 </section>
 
 				<section data-background-image="img/bottom.png" data-background-position="bottom"
 				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
@@ -633,7 +571,6 @@ private &lt;R&gt; void resume(ResultMessage&lt;R&gt; result, Class&lt;R&gt; type
 			 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
 			 data-height="768px">
 				<h3>實踐 → 驗證</h3>
-				<h4 class="fragment">我們來看程式...</h4>
 			</section>
 
 			<section>
@@ -738,6 +675,75 @@ private &lt;R&gt; void resume(ResultMessage&lt;R&gt; result, Class&lt;R&gt; type
 					<h3>What's Next?</h3>
 					<img src="img/loom.png" height="400px">
 				</section>
+			</section>
+
+			<section>
+				<section data-background-image="img/bottom.png" data-background-position="bottom"
+				data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
+				data-height="768px">
+				   <h3>除了 Coroutine，有其他解法嗎？</h3>
+			   </section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom"
+				data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
+				data-height="768px">
+				   <h3>其他解法之一：Producer Consumer Pattern</h3>
+				   <div class="fragment">
+					   <img src="img/blocking-queue.png" height="350px"><br>
+					   <em style="font-size: 28px">圖片來源：HowToDoInJava</em>
+				   </div>
+			   </section>
+
+			   <section data-background-image="img/bottom.png" data-background-position="bottom"
+				data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
+				data-height="768px">
+				   <h3>優點</h3>
+				   <ul>
+					   <li class="fragment">使用 Java 原生的機制，具有最好的相容性與穩定性</li>
+					   <li class="fragment">使用同步式開發，程式碼易於理解、維護</li>
+				   </ul>
+			   </section>
+			   <section data-background-image="img/bottom.png" data-background-position="bottom"
+				data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
+				data-height="768px">
+				   <h3>缺點</h3>
+				   <ul>
+					   <li class="fragment">所有 <strong>wait</strong> 在 <strong>LinkedBlockingQueue</strong>
+						   上的 Producer 與 Consumer 都是活著的(activated) Thread</li>
+					   <li class="fragment">當 ThreadPool 裡的 Thread 都在 <strong>wait</strong>，則會造成
+						   ThreadPool 堵塞住</li>
+					   <li class="fragment">若使用 <strong>sleep</strong> 則會造成頻繁 context switch 負擔</li>
+					   <li class="fragment">如果只是存取外部服務(Web、MQ...)，為何我們要耗用 CPU 的資源來等待呢？</li>
+				   </ul>
+			   </section>
+
+			   <section data-background-image="img/bottom.png" data-background-position="bottom"
+				data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
+				data-height="768px">
+				   <h3>Asynchronous</h3>
+			   </section>
+
+			   <section data-background-image="img/bottom.png" data-background-position="bottom"
+				data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
+				data-height="768px">
+				   <h3>優點</h3>
+				   <ul>
+					   <li class="fragment">本質上完全相容於 Message Queue 訊息來往的特性</li>
+					   <li class="fragment">已有許多成熟的專案可支援 eg. Akka</li>
+				   </ul>
+			   </section>
+
+			   <section data-background-image="img/bottom.png" data-background-position="bottom"
+				data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
+				data-height="768px">
+				   <h3>缺點</h3>
+				   <ul>
+					   <li class="fragment">既有架構必須完全改寫</li>
+					   <li class="fragment">需要使用記憶體快取或資料持久化機制，來儲存每一個階段做到一半的資料</li>
+					   <li class="fragment">業務邏輯散落各處，一旦需求改變，便難以修正</li>
+					   <li class="fragment">學習曲線較高，對團隊技術面知識要求較高</li>
+				   </ul>
+			   </section>
 			</section>
 
 			<section data-background-image="img/bottom.png" data-background-position="bottom"
