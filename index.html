@@ -104,7 +104,6 @@
 				<section data-background-image="img/bottom.png" data-background-position="bottom"
 				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
 				 data-height="768px">
-					<h3>Quasar</h3>
 					<p>Quasar 是個提供了高效、輕量執行緒的函式庫，它有如同 Go 語言的 channels、Erlang 語言的 actors，還有其他供 Java 與
 						Kotlin 開發使用的非同步工具</p>
 				</section>
@@ -144,10 +143,6 @@
 						在 1 <= n <=45 的費氏數列裡，<br>
 							有多少個數字是質數呢？
 					</p>
-					<ul>
-						<li class="fragment">為了表示耗時操作，本例皆用最慢演算法</li>
-						<li class="fragment">各位都是專業的工程師，請勿模仿本例寫法</li>
-					</ul>
 				</section>
 
 				<section data-background-image="img/bottom.png" data-background-position="bottom"
@@ -186,6 +181,22 @@ boolean isPrime(long value) {
 				<section data-background-image="img/bottom.png" data-background-position="bottom"
 				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
 				 data-height="768px">
+					<h3>同步執行的程式</h3>
+					<pre><code class="java hljs" data-trim data-noescape>
+List&lt;Long&gt; checkPrimalityFib(long n){
+  List&lt;Long&gt; numbers = new ArrayList&lt;&gt();
+    for(long i = 1; i <= n; i++){
+      long fibNum = fib(i);
+	  if (isPrime(fibNum)){ numbers.add(i); }
+    }
+  return numbers;
+}
+					</code></pre>
+				</section>
+
+				<section data-background-image="img/bottom.png" data-background-position="bottom"
+				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
+				 data-height="768px">
 					<h3>同步執行</h3>
 					<div class="fragment">
 						<img src="img/drip.jpg"><br>
@@ -201,22 +212,6 @@ boolean isPrime(long value) {
 						<img src="img/queueing.jpg" height="350px"><br>
 						<em style="font-size: 28px">圖片來源：輕旅行@yam.com</em>
 					</div>
-				</section>
-
-				<section data-background-image="img/bottom.png" data-background-position="bottom"
-				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
-				 data-height="768px">
-					<h3>同步執行的程式</h3>
-					<pre><code class="java hljs" data-trim data-noescape>
-List&lt;Long&gt; checkPrimalityFib(long n){
-  List&lt;Long&gt; numbers = new ArrayList&lt;&gt();
-    for(long i = 1; i <= n; i++){
-      long fibNum = fib(i);
-	  if (isPrime(fibNum)){ numbers.add(i); }
-    }
-  return numbers;
-}
-					</code></pre>
 				</section>
 
 				<section data-background-image="img/bottom.png" data-background-position="bottom"
@@ -259,13 +254,7 @@ List&lt;Long&gt checkPrimalityFib(long n){
 				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
 				 data-height="768px">
 					<h3>非同步的 Event Driven</h3>
-					<em style="font-size: 28px">讓我們來看一下程式....</em>
-				</section>
-
-				<section data-background-image="img/bottom.png" data-background-position="bottom"
-				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
-				 data-height="768px">
-					<h3>程式脈絡已經與先前完全不同！</h3>
+					<em style="font-size: 28px">請參考範例程式</em>
 				</section>
 
 				<section data-background-image="img/bottom.png" data-background-position="bottom"
@@ -387,10 +376,8 @@ try{
 					<h3>缺點</h3>
 					<ul>
 						<li class="fragment">引入了外部(Java Agent)工具，增加部署上的負擔</li>
-						<li class="fragment">為了保持邏輯正確性，需要把 Fiber 暫停前的資料暫存起來</li>
 						<li class="fragment">框架間相容性需要更深入研究</li>
 						<li class="fragment">框架都很冷門，甚至有的已經沒有在維護</li>
-						<li class="fragment">JDK 原生 Coroutine - Loom 仍在研議中</li>
 					</ul>
 				</section>
 			</section>
@@ -413,8 +400,8 @@ try{
 				 data-height="768px">
 					<h3>Fiber & Channel</h3>
 					<div class="fragment">
-						<img src="img/go-channel.jpg" width="350px"><br>
-						<em style="font-size: 28px">圖片來源：知乎</em>
+						<img src="img/go-channel.jpg" width="450px"><br>
+						<em style="font-size: 28px">圖片來源：TensorProgramming</em>
 					</div>
 				</section>
 
@@ -487,8 +474,11 @@ public class PrimalityFiber
 List&lt;Long&gt; result = new ArrayList&lt;&gt;();
 
 for (long i = 1; i &lt;= n; i++) {
-  Long fibResult = receiveFromChannel(service.calFib(i));
-  Boolean primeResult = receiveFromChannel(service.calPrime(fibResult));
+  Long fibResult = receiveFromChannel(
+      service.calFib(i));
+  Boolean primeResult = receiveFromChannel(
+      service.calPrime(fibResult));
+
   if (primeResult) { result.add(i); }
 }
 return result;
@@ -500,7 +490,7 @@ return result;
 				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
 				 data-height="768px">
 					<h3>謎底之一</h3>
-					<div class="fragment">
+					<div>
 						<pre class="java hljs"><code>
 public Channel&lt;Long&gt; calFib(long n) {
   CommandMessage&lt;Long&gt; fibCmd = createFibCommand(n);
@@ -517,7 +507,7 @@ public Channel&lt;Long&gt; calFib(long n) {
 				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
 				 data-height="768px">
 					<h3>謎底之二</h3>
-					<div class="fragment">
+					<div>
 						<pre class="java hljs"><code>
 @Suspendable
 protected &lt;T&gt; T receiveFromChannel(Channel&lt;T&gt; channel)
@@ -531,7 +521,7 @@ protected &lt;T&gt; T receiveFromChannel(Channel&lt;T&gt; channel)
 				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
 				 data-height="768px">
 				 <h3>這樣會更好</h3>
-				 <div class="fragment">
+				 <div>
 					 <pre class="java hljs"><code>
 @Suspendable
 private Long calFib(long n)
@@ -548,11 +538,12 @@ private Long calFib(long n)
 				 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
 				 data-height="768px">
 					<h3>謎底之三</h3>
-					<div class="fragment">
+					<div>
 						<pre class="java hljs"><code>
 @Suspendable
 private &lt;R&gt; void resume(ResultMessage&lt;R&gt; result, Class&lt;R&gt; type) {
-  Optional&lt;Channel&lt;R&gt;&gt; maybe = channels.find(result.getId(), type);
+  Optional&lt;Channel&lt;R&gt;&gt; maybe = channels.find(
+      result.getId(), type);
   if (maybe.isPresent()) {
     Channel&lt;R&gt; channel = maybe.get();
     try {
@@ -606,7 +597,7 @@ private &lt;R&gt; void resume(ResultMessage&lt;R&gt; result, Class&lt;R&gt; type
 					<ul>
 						<li class="fragment">AOT 是 compile time instrument</li>
 						<li class="fragment">JavaAgent 是 runtime instrument</li>
-						<li class="fragment">如果要控制已有的 class 進行 suspend，只能用 JavaAgent</li>
+						<li class="fragment">如果要控制已有的 class 進行 suspend，<br>只能用 JavaAgent</li>
 						<li class="fragment">反之，系統的 deploy 就可以少帶一包累贅</li>
 					</ul>
 				</section>
@@ -655,15 +646,18 @@ private &lt;R&gt; void resume(ResultMessage&lt;R&gt; result, Class&lt;R&gt; type
 				<ul>
 					<li class="fragment">
 						如果你的 Fiber 裡有耗時的 blocking 工作：<br>
-						<pre class="java hljs"><code>
--Dco.paralleluniverse.fibers.detectRunawayFibers=false
+						<pre class="java hljs" width="100%"><code>
+co.paralleluniverse.fibers.detectRunawayFibers
 						</code></pre>
 					</li>
 					<li class="fragment">
 						如果你的程式沒有無法 instrument 的呼叫：<br>
-						<pre class="java hljs"><code>
--Dco.paralleluniverse.fibers.verifyInstrumentation=false
+						<pre class="java hljs"><code width="100%">
+co.paralleluniverse.fibers.verifyInstrumentation
 						</code></pre>
+					</li>
+					<li class="fragment">
+						請都設為 false
 					</li>
 				</ul>
 			</section>
@@ -676,7 +670,7 @@ private &lt;R&gt; void resume(ResultMessage&lt;R&gt; result, Class&lt;R&gt; type
 					<img src="img/loom.png" height="400px">
 				</section>
 			</section>
-
+<!--
 			<section>
 				<section data-background-image="img/bottom.png" data-background-position="bottom"
 				data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
@@ -745,7 +739,7 @@ private &lt;R&gt; void resume(ResultMessage&lt;R&gt; result, Class&lt;R&gt; type
 				   </ul>
 			   </section>
 			</section>
-
+-->
 			<section data-background-image="img/bottom.png" data-background-position="bottom"
 			 data-background-size="contain" data-background-repeat="no-repeat" data-width="1024px"
 			 data-height="768px">
